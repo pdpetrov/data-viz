@@ -1,0 +1,22 @@
+.navbar {
+	margin-bottom: 20px;
+}
+
+.thumbnail {
+	height: 300px;	
+} 
+
+.thumbnail img {
+	height: 120px;	
+} 
+
+.thumbnail .btn {
+	position: absolute;
+    bottom: 10%;
+    left: 7%;
+}
+
+.opendata-footer {
+	position:absolute;
+}
+    
