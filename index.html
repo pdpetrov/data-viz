@@ -1,0 +1,42 @@
+---
+layout: default
+title: 'Визуализации'
+custom_css_path: 
+  - 'assets/css/thumbnails.css'
+custom_js_path: 
+  - 'http://code.jquery.com/jquery-2.1.4.min.js'
+  - 'assets/js/equal-thumbnails.js'
+visuals:
+  - preview_image_path: assets/img/previews/education.png
+    visual_title: Средно образование
+    visual_short_description: Средство за анализ на данните от положените ДЗИ за 2015 година
+    visual_link: visuals/edu-map.html
+
+  - preview_image_path: assets/img/previews/grao.png
+    visual_title: Настоящи миграции
+    visual_short_description: Информацията за регистрациите и дерегистрациите по настоящ адрес
+    visual_link: visuals/grao-map.html
+  
+  - preview_image_path: assets/img/previews/hc-dashboard.png
+    visual_title: Здравна система
+    visual_short_description: Средство за анализ на здравната система
+    visual_link: visuals/healthcare-dashboard.html
+
+---
+
+  <div class="row">
+    {% for item in page.visuals %}
+      <div class="col-sm-6 col-md-4"> <!-- column 1 -->
+        <div class="thumbnail"> <!--  thumbnail 1  -->
+          <img src={{ item.preview_image_path }} alt={{item.visual_title}}> <!-- image 1 -->
+          <div class="caption"> <!-- caption -->
+            <h3>{{item.visual_title}}</h3>
+            <p>{{item.visual_short_description}}</p>
+            <p>
+              <a href={{ item.visual_link }} class="btn btn-default" role="button">Разгледай</a>  <!-- btn 2 -->
+            </p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}  
+  </div>
