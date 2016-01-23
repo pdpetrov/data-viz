@@ -7,28 +7,6 @@ $(function(){
 		.defer(d3.json, "../assets/data/crime/recoded-en-bg-crime.json")
 		.await(ready);
 
-	var deepEqual = function (x, y) {
-	  if ((typeof x == "object" && x != null) && (typeof y == "object" && y != null)) {
-	    if (Object.keys(x).length != Object.keys(y).length)
-	      return false;
-	    for (var prop in x) {
-	      if (y.hasOwnProperty(prop))
-	      {  
-	        if (! deepEqual(x[prop], y[prop]))
-	          return false;
-	      }
-	      else
-	        return false;
-	    }
-	    return true;
-	  }
-	  else if (x !== y)
-	    return false;
-	  else
-	    return true;
-	}
-
-
 	function toPrcObj (items){
   	var prev = 0,
   			res = {};
@@ -113,8 +91,6 @@ $(function(){
 	}
 
 
-	console.log('start');
-
 	var dispatch = d3.dispatch('load','yearChange','sortBarChartO','sortBarChartR','oblastFocus')
 
 	var smallMobile = false;
@@ -133,15 +109,10 @@ $(function(){
     }
   }
 
+  if($(window).height() < 610){
+  	height = $(window).height()*0.6
+  }
 
-	console.log('Height : ', height)
-	console.log('Width : ', width)
-	console.log('Circle radius from ', height*0.1, 'to', height*0.05 )
-
-
-
-	// var tileColors = ['#fe1e13','#c04523','#dfbe10','#91bb11'];
-	// var tileColors = ['#650c07','#fe1e13','#fe7871','#febbb8'];
 	var tileColors = ['#ff1004','#fe7871','#92a2b5','#5c7390'];
 	var tileColorsDividers = [100, 50, 30, 0];
 
@@ -378,8 +349,6 @@ $(function(){
 		    
 		    // If second click on opened close the menu and use the information
 		    if($(this).parent().hasClass('open')){
-		    	console.log(this.text);
-	        console.log(recodeBG['crimes'][this.text]);
 		    	updateCrime(recodeBG['crimes'][this.text]);
 		    	menuProp = true
 		    }else{
@@ -413,8 +382,6 @@ $(function(){
       		var a = d3.select(this).select('a') 
 
 	        a.each(function(b){
-	        	console.log(this.text);
-	        	console.log(recodeBG['crimes'][this.text]);
 	        	updateCrime(recodeBG['crimes'][this.text]);
 	        })
 
@@ -426,13 +393,9 @@ $(function(){
 
 
      $('#navSelector').on('click', function(){
-     		console.log(menuProp)
      		// excute only if there is no propagation
      		if($(this).hasClass('open') && menuProp === false){
-     			console.log('Общo');
-	        console.log(recodeBG['crimes']['Общo']);
 	        updateCrime(recodeBG['crimes']['Общo']);
-     			console.log('already opened')
      		}
      		menuProp = false;
      });
@@ -576,8 +539,6 @@ $(function(){
 
 			if (oblastBG && selectedOblast !== oblastBG) {
 
-
-        console.log('new oblast : ', oblastBG);
         selectedOblast = oblastBG;
         
 		  	updateSecondTitle(selectedOblast)
@@ -588,7 +549,6 @@ $(function(){
 
       } else {
 
-      	console.log('again here');
 
       }
 
