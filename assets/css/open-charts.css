@@ -1,0 +1,87 @@
+
+.sortedBars .bar rect{
+  fill: #691212;
+}
+
+.sortedBars .bar rect:hover {
+  fill: #e4e4e4;
+}
+
+.sortedBars .bar text{
+  font: 10px sans-serif;
+  fill: #000;
+}
+
+.sortedBars .axis {
+  font: 8px sans-serif;
+}
+
+.sortedBars .axis path,
+.sortedBars .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+
+
+.dualLineChart .x-axis path,
+.dualLineChart .y-axis-left path,
+.dualLineChart .y-axis-right path { 
+    stroke: #D3D3D3;
+    stroke-width: 1;
+    fill: none;
+}
+
+.dualLineChart .y-axis-left text,
+.dualLineChart .y-axis-right text { 
+    fill: #b5b5b5;
+    font: 10px sans-serif;
+}
+
+.dualLineChart .x-axis text { 
+    font: 10px sans-serif;
+}
+
+.dualLineChart path{
+	stroke-width: 2;
+    fill: none;
+}
+
+.dualLineChart .line-values1 text,
+.dualLineChart .line-values2 text { 
+    font: 10px sans-serif;
+    fill: #444444;
+}
+
+
+
+.multiLineChart .x.axis path,
+.multiLineChart .y.axis path { 
+    stroke: #D3D3D3;
+    stroke-width: 1;
+    fill: none;
+}
+
+.multiLineChart .y.axis text{ 
+    fill: #938b8b;
+    font: 10px sans-serif;
+}
+
+.multiLineChart .x.axis text { 
+    font: 10px sans-serif;
+}
+
+.multiLineChart path{
+	stroke-width: 2;
+    fill: none;
+}
+ 
+.multiLineChart .line-values text { 
+    font: 10px sans-serif;
+    fill: #444444;
+}
+
+.multiLineChart text { 
+    font: 10px sans-serif;
+}

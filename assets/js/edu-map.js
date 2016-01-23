@@ -1,6 +1,6 @@
 (function(){
 
-  var height = 500;
+  var height = $(window).height()*0.65;
   var isLargeScreen=true;
 
   // handle different screen sizes
@@ -124,9 +124,12 @@
 
       progressBar.update = function (progressData, sliceData) {
         if (typeof(progressData)==='undefined' || progressData[1] === 0){
-          // $('.progressName').html('');
-          d3.select(".sideCharts").remove()
+          $('.sideCharts').fadeOut('slow');         
         }else{
+          if(($('.sideCharts').length)){
+            $('.sideCharts').fadeIn('slow');
+          }
+          
           $('.progressName').html('<p> Избрани училища брой</p>');
           
           d3.select(".progressChart")
@@ -161,15 +164,14 @@
 
       hist.onAdd = function (map) {
         this._div = L.DomUtil.create('div', 'histChart');
-        // this._div.innerHTML = '<p>Хистограма избрани училища</p>';
         return this._div;
       };
 
       hist.update = function (data) {
         if (typeof(data)==='undefined'){
-          this._div.innerHTML = '';
-          d3.select(".histChart").select('svg').remove()
+          $('.histChart').fadeOut('slow');
         }else{
+          $('.histChart').fadeIn('slow');
           this._div.innerHTML = '<p>Хистограма избрани училища</p>';
           d3.select(".histChart")
             .datum(data)
