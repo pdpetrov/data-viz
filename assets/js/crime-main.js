@@ -109,8 +109,9 @@ $(function(){
     }
   }
 
-  if($(window).height() < 610){
-  	height = $(window).height()*0.6
+  // Laptop
+  if($(window).height() < 610 && $(window).width() > 1000){
+  	height = $(window).height()*0.8
   }
 
 	var tileColors = ['#ff1004','#fe7871','#92a2b5','#5c7390'];
