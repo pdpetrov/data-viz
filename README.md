@@ -1,2 +1,2 @@
 # data-viz
-Visualization site demo
+Opendata visualization site demo
