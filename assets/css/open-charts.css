@@ -1,10 +1,10 @@
 
 .sortedBars .bar rect{
-  fill: #691212;
+  fill: #0d90d1;
 }
 
 .sortedBars .bar rect:hover {
-  fill: #e4e4e4;
+  fill: #a9dffa;
 }
 
 .sortedBars .bar text{

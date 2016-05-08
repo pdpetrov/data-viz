@@ -2,8 +2,8 @@ $(function(){
 
 	queue()
 		.defer(d3.json, "../assets/topojson/bg-oblasti-simple.json")
-		.defer(d3.csv, "../assets/data/crime/mvr-aggr-13-perth.csv")
-		.defer(d3.csv, "../assets/data/crime/mvr-aggr-13-prc.csv")
+		.defer(d3.csv, "../assets/data/crime/mvr-aggr-13-perth-full.csv")
+		.defer(d3.csv, "../assets/data/crime/mvr-aggr-13-prc-full.csv")
 		.defer(d3.json, "../assets/data/crime/recoded-en-bg-crime.json")
 		.await(ready);
 
@@ -114,7 +114,8 @@ $(function(){
   	height = $(window).height()*0.8
   }
 
-	var tileColors = ['#ff1004','#fe7871','#92a2b5','#5c7390'];
+	// var tileColors = ['#ff1004','#fe7871','#92a2b5','#5c7390'];
+  var tileColors = ['#ff1004','#ff5262','#d1b60d','#14bb11'];
 	var tileColorsDividers = [100, 50, 30, 0];
 
 	var circleColors = ['#fe1e13','#dfbe10','#91bb11'];
@@ -124,7 +125,7 @@ $(function(){
 	// External interface
 	var initialYear=2000,
 		currentYear=2000,
-		lastYear=2014,
+		lastYear=2015,
 		years = [];
 
 	for (var i = initialYear; i <= lastYear; i++) { years.push(i); }
@@ -154,7 +155,7 @@ $(function(){
 	    .attr("height", height);
 
 	// Scales and formats
-	var occuranceRescale = d3.scale.linear()
+	var occurenceRescale = d3.scale.linear()
 
 	var colorScale = d3.scale.linear()
     					.domain(tileColorsDividers)
@@ -198,7 +199,7 @@ $(function(){
 			.text(function(d) { return formatPrc(d/100); });
 
 
-	function ready(error, geodata, crimeOccuranceData, crimeRevealData, recodeBG) {
+	function ready(error, geodata, crimeOccurenceData, crimeRevealData, recodeBG) {
 		if (error) throw error;
 
 		// Slider
@@ -236,7 +237,7 @@ $(function(){
 
 		  years.forEach(function(d) { 
 		  	situationByYear.set(d, 
-		  		filterByCriteriaSelectKeyAndField(crimeOccuranceData,'Year',[d.toString()],'Oblast',targetVar));
+		  		filterByCriteriaSelectKeyAndField(crimeOccurenceData,'Year',[d.toString()],'Oblast',targetVar));
 
 		  	revealedByYear.set(d, 
 		  		filterByCriteriaSelectKeyAndField(crimeRevealData,'Year',[d.toString()],'Oblast',targetVar));
@@ -245,7 +246,7 @@ $(function(){
 
 		  oblasts.forEach(function(d) { 
 		  	situationByOblast.set(d, 
-		  		filterByCriteriaSelectKeyAndField(crimeOccuranceData,'Oblast',[d],'Year',targetVar));
+		  		filterByCriteriaSelectKeyAndField(crimeOccurenceData,'Oblast',[d],'Year',targetVar));
 
 		  	revealByOblast.set(d, 
 		  		filterByCriteriaSelectKeyAndField(crimeRevealData,'Oblast',[d],'Year',targetVar));
@@ -316,12 +317,12 @@ $(function(){
 			d3.select("#dualLineChartTotals").call(dualLineChartTotals);
 			d3.select("#multiLineChartPrcs").call(multiLineChartPrcs);
 
-    	dispatch.on("oblastFocus.lines", function(occurance, revealed) {
+    	dispatch.on("oblastFocus.lines", function(occurence, revealed) {
 
-    		dualLineChartTotals.data([occurance, revealed]);
+    		dualLineChartTotals.data([occurence, revealed]);
     		multiLineChartPrcs.data(
     			{
-						'ръст престъпност' : toPrcObj(occurance),
+						'ръст престъпност' : toPrcObj(occurence),
 						'ръст разкрития' : toPrcObj(revealed)
 					});
 
@@ -336,76 +337,18 @@ $(function(){
 		dispatch.oblastFocus(situationByOblast.get(selectedOblast), revealByOblast.get(selectedOblast), selectedOblast);
 
 
-
 		// Add options to hard-coded menu
-		// based on menu by cskelly @ http://www.bootply.com/92442
 
-		// propagation spy
-		var menuProp = false;
-
-		$('ul.dropdown-menu [data-toggle=dropdown]')
-			.on('click', function(event) {
-		    // Avoid following the href location when clicking
-		    event.preventDefault(); 
-		    
-		    // If second click on opened close the menu and use the information
-		    if($(this).parent().hasClass('open')){
-		    	updateCrime(recodeBG['crimes'][this.text]);
-		    	menuProp = true
-		    }else{
-		    	// Avoid having the menu to close when clicking
-		    	event.stopPropagation(); 
-			    // If a menu is already open - close it
-			    $(this).parent().parent().find('li.open').removeClass('open')
-
-			    // opening the one you clicked on
-			    $(this).parent().addClass('open');
-
-			    var menu = $(this).parent().find("ul");
-			    var menupos = menu.offset();
-			  
-			    if ((menupos.left + menu.width()) + 30 > $(window).width()) {
-			        var newpos = - menu.width();      
-			    } else {
-			        var newpos = $(this).parent().width();
-			    }
-			    menu.css({ left:newpos });
-		   	}
-		    
-			});
-
-    $("li.menu-item")
+    $('.navbar-nav a')
       .on('click', function(event) {
-      	
-      	if( $(this).hasClass('menu-item ') ){
-      		event.stopPropagation()
-
-      		var a = d3.select(this).select('a') 
-
-	        a.each(function(b){
-	        	updateCrime(recodeBG['crimes'][this.text]);
-	        })
-
-	        $('#navSelector').removeClass('open');
-
-      	}
-      	
+        updateCrime(recodeBG['crimes'][this.text])
       });
-
-
-     $('#navSelector').on('click', function(){
-     		// excute only if there is no propagation
-     		if($(this).hasClass('open') && menuProp === false){
-	        updateCrime(recodeBG['crimes']['Общo']);
-     		}
-     		menuProp = false;
-     });
 
 
 		function updateCrime(code){
 			targetVar = code;
 			updateMapTitle(currentYear, recodeBG['crimes-inv'][targetVar])
-			occuranceColorCode(targetVar);
+			occurenceColorCode(targetVar);
 			updateColorCodeAndDictionary(currentYear,targetVar);
 			createViews(targetVar);
 			dispatch.yearChange(situationByYear.get(currentYear), revealedByYear.get(currentYear));
@@ -475,7 +418,7 @@ $(function(){
           	tooltip.select("#path-oblast").text("Област: " +
           		oblastBG)
           	tooltip.select("#path-value").text("Процент: " +
-          		filterByTwoCriteriaSelectField(crimeOccuranceData,'Oblast',[oblastBG],'Year',[currentYear.toString()],targetVar)[0])
+          		filterByTwoCriteriaSelectField(crimeOccurenceData,'Oblast',[oblastBG],'Year',[currentYear.toString()],targetVar)[0])
           	tooltip.select("#path-year").text("Година: " + currentYear)
           	return tooltip
           		.transition()
@@ -495,7 +438,7 @@ $(function(){
         		clickedOblast(d)
         });
 
-    occuranceColorCode(targetVar);
+    occurenceColorCode(targetVar);
     updateColorCodeAndDictionary(initialYear, targetVar);
     
     d3.selectAll('.region').each(function(d){
@@ -555,18 +498,18 @@ $(function(){
 
 		}
 
-		function occuranceColorCode(target){
-			var fieldRange = getField(crimeOccuranceData, target, true)
+		function occurenceColorCode(target){
+			var fieldRange = getField(crimeOccurenceData, target, true)
 
-			// update the occuranceRescale
-			occuranceRescale
+			// update the occurenceRescale
+			occurenceRescale
 				.domain([ d3.min(fieldRange), d3.max(fieldRange) ])
     	.range([0, 100])
 
     	// update color legend
 	    var colorLegend = {};
 	    for (i=0; i<tileColors.length; i++){
-	    	colorLegend[tileColors[i]]=occuranceRescale.invert(tileColorsDividers[i]);
+	    	colorLegend[tileColors[i]]=occurenceRescale.invert(tileColorsDividers[i]);
 	    }
 	    
 	    var legendKeys = legend.selectAll('li.key')
@@ -592,10 +535,10 @@ $(function(){
 				.style("fill", function(d){
 
 					var oblastBG = recodeBG['oblasti'][d.properties.oblast];
-					var value = +filterByTwoCriteriaSelectField(crimeOccuranceData,'Oblast',[oblastBG],'Year',[year.toString()],target)[0];
+					var value = +filterByTwoCriteriaSelectField(crimeOccurenceData,'Oblast',[oblastBG],'Year',[year.toString()],target)[0];
 					_dataDict[d.properties.oblast] = +filterByTwoCriteriaSelectField(crimeRevealData,'Oblast',[oblastBG],'Year',[year.toString()],target)[0];
 
-					return value != undefined ? colorScale(occuranceRescale(value)) : '#cccccc';
+					return value != undefined ? colorScale(occurenceRescale(value)) : '#cccccc';
 		    });
 
 

@@ -5,10 +5,13 @@ custom_css_path:
   - '../assets/libs/css/d3.slider.css'
   - '../assets/css/crime.css?v=123'
   - '../assets/css/open-charts.css?v=123'
+  - '../assets/libs/css/jquery.smartmenus.bootstrap.css'
 custom_js_path: 
   - 'http://d3js.org/d3.v3.min.js'
   - 'http://d3js.org/topojson.v1.min.js'
   - 'https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js'
+  - '../assets/libs/js/jquery.smartmenus.js'
+  - '../assets/libs/js/jquery.smartmenus.bootstrap.js'
   - '../assets/libs/js/d3.slider.js'
   - '../assets/js/open-charts.js?v=123'
   - '../assets/js/crime-main.js?v=123'
@@ -56,7 +59,8 @@ custom_js_path:
       От навигационното меню може да изберете вид на престълението, което да анализирате, като има са достъпни данни за всички 80 вида, отчитани от МВР в периода. За бърз преглед на данните е включена анимирано меню<br>
       Под картата са показани подробно и данните за нивото на престъпна дейност във всяка област и съответно разкиваемост. Областите могат да бъдат ранкиране на лесен сравнителен анализ.<br>
       Избирайки област с кликане на картата ще се обновят и графиките за динамиката на престъпността в периода в съответната община.<br>
-      За преглед на подробен анализ на данните отворете бутона в дясно.
+      За преглед на подробен анализ на данните отворете бутона в дясно.<br>
+      Суровите данни използвани в тази визуализация могат да бъдат свалени от <a href="https://github.com/ppetrovcsr/data-viz/tree/gh-pages/assets/data/crime">тук</a>.<br>
       </p>
       
     </div>
@@ -65,162 +69,163 @@ custom_js_path:
     <div class="vdivider"> </div>
     <div class="vdivider"> </div>
 
-    <div id='mapNav'>
-    
-      <nav role="navigation" class="navbar navbar-default">
-          <div id="navbarCollapse" class="collapse navbar-collapse">
-              <ul class="nav navbar-nav">
-                  <li id='navLabel'><a>Престъпления :</a></li>
-                  <li id='navSelector' class="menu-item dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Общo<b class="caret"></b></a>
-                      <ul class="dropdown-menu">
+    <!-- Navbar -->
+    <div class="navbar navbar-default" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Престъпления :</a>
+      </div>
+      <div class="navbar-collapse collapse">
 
-                          <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Престъпления против личността</a>
-                            <ul class="dropdown-menu">
-                                <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Убийство</a>
-                                  <ul class="dropdown-menu">
-                                    <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Умишлено убийство</a>
-                                      <ul class="dropdown-menu">
-                                        <li class="menu-item "><a href="#">Убийство по поръчка</a></li>
-                                      </ul>
-                                    </li>
-                                    <li class="menu-item "><a href="#">Умишлено убийство (опит)</a></li>
-                                    <li class="menu-item "><a href="#">Убийство на новородено</a></li>
-                                    <li class="menu-item "><a href="#">Подпомагане, склоняване към самоубийство</a></li>
-                                  </ul>
-                                </li>
-                                <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Разврат</a>
-                                  <ul class="dropdown-menu">
-                                    <li class="menu-item "><a href="#">Блудство</a></li>
-                                    <li class="menu-item "><a href="#">Изнасилване</a></li>
-                                    <li class="menu-item "><a href="#">Изнасилване (опит)</a></li>
-                                    <li class="menu-item "><a href="#">Сводничество и отвличане за разврат</a></li>
-                                    <li class="menu-item "><a href="#">Насилствен хомосексуализъм</a></li>
-                                  </ul>
-                                </li>
-                                <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Телесна повреда</a>
-                                  <ul class="dropdown-menu">
-                                    <li class="menu-item "><a href="#">Умишлена тежка телесна повреда</a></li>
-                                  </ul>
-                                </li>
-                                <li class="menu-item "><a href="#">Отвличане и противозаконно лишаване от свобода</a></li>
-                                <li class="menu-item "><a href="#">Задържане на заложник</a></li>
-                                <li class="menu-item "><a href="#">Трафик на хора</a></li>
-                                <li class="menu-item "><a href="#">Други против личността</a></li>
-                            </ul>
-                          </li>
+        <!-- Left nav -->
+        <ul class="nav navbar-nav">
+          <li id='navSelector'><a href="#">Общo<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Престъпления против личността<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Убийство<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Умишлено убийство<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Убийство по поръчка</a></li>
+                        </ul>
+                      </li>
 
-
-                          <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Престъпления против собствеността</a>
-                            <ul class="dropdown-menu">
-                                <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Грабеж</a>
-                                  <ul class="dropdown-menu">
-                                    <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Въоръжен грабеж</a>
-                                      <ul class="dropdown-menu">
-                                        <li class="menu-item "><a href="#">Въоръжен грабеж чрез огнестрелно оръжие</a></li>
-                                      </ul>
-                                    </li>
-                                    <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Магистрален грабеж</a>
-                                      <ul class="dropdown-menu">
-                                        <li class="menu-item "><a href="#">Магистрален въоръжен грабеж</a></li>
-                                      </ul>
-                                    </li>
-                                  </ul>
-                                </li>
-                                <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Кражба</a>
-                                  <ul class="dropdown-menu">
-                                    <li class="menu-item "><a href="#">Джебчийска кражба</a></li>
-                                    <li class="menu-item "><a href="#">Взломна кражба</a></li>
-                                    <li class="menu-item "><a href="#">Домова кражба</a></li>
-                                    <li class="menu-item "><a href="#">Кражба от офиси</a></li>
-                                    <li class="menu-item "><a href="#">Кражба от магазини</a></li>
-                                    <li class="menu-item "><a href="#">Кражба на части и вещи от МПС</a></li>
-                                    <li class="menu-item "><a href="#">Кражба на оръжие и боеприпаси</a></li>
-                                    <li class="menu-item "><a href="#">Кражба на селскостопанска продукция, домашни животни и птици</a></li>
-                                  </ul>
-                                </li>
-                                <li class="menu-item "><a href="#">Измама</a></li>
-                                <li class="menu-item "><a href="#">Изнудване</a></li>
-                                <li class="menu-item "><a href="#">Други против собствеността</a></li>
-                            </ul>
-                          </li>
-
-
-                          <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Общоопасни престъпления</a>
-                            <ul class="dropdown-menu">
-                                <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Палеж</a>
-                                  <ul class="dropdown-menu">
-                                    <li class="menu-item "><a href="#">Повреждане чрез взрив</a></li>
-                                  </ul>
-                                </li>
-                                <li class="menu-item "><a href="#">Незаконно производство, притежаване и използване на оръжие</a></li>
-                                <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Посегателства спрямо МПС</a>
-                                  <ul class="dropdown-menu">
-                                    <li class="menu-item "><a href="#">Противозаконно отнемане на МПС</a></li>
-                                    <li class="menu-item "><a href="#">Съдействие при връщане на МПС с цел имотна облага</a></li>
-                                    <li class="menu-item "><a href="#">Кражба на МПС</a></li>
-                                    <li class="menu-item "><a href="#">Грабеж на МПС</a></li>
-                                    <li class="menu-item "><a href="#">Грабеж на МПС от престъпна група</a></li>
-                                  </ul>
-                                </li>
-                                <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Престъпления, свързани с наркотици</a>
-                                  <ul class="dropdown-menu">
-                                    <li class="menu-item "><a href="#">Контрабанда</a></li>
-                                    <li class="menu-item "><a href="#">Производство, притежаване, разпространение, пренасяне</a></li>
-                                    <li class="menu-item "><a href="#">Склоняване към употреба</a></li>
-                                    <li class="menu-item "><a href="#">Отглеждане на растения</a></li>
-                                    <li class="menu-item "><a href="#">Превод на суми, придобити чрез трафик на наркотици</a></li>
-                                    <li class="menu-item "><a href="#">Финансови операции и сделки със суми</a></li>
-                                    <li class="menu-item "><a href="#">Възпрепятстване контрол</a></li>
-                                    <li class="menu-item "><a href="#">Неправомерен контрол</a></li>
-                                  </ul>
-                                </li>
-                                <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Престъпления по транспорта</a>
-                                  <ul class="dropdown-menu">
-                                    <li class="menu-item "><a href="#">Транспортни убийства по непредпазливост</a></li>
-                                    <li class="menu-item "><a href="#">Транспортни телесни повреди по непредпазливост</a></li>
-                                  </ul>
-                                </li>
-                                <li class="menu-item "><a href="#">Други общоопасни</a></li>
-                            </ul>
-                          </li>
-
-
-                          <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Други криминални престъпления"</a>
-                            <ul class="dropdown-menu">
-                                <li class="menu-item "><a href="#">Престъпления против правата на гражданите</a></li>
-                                <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Престъпления против брака, семейството и младежта</a>
-                                  <ul class="dropdown-menu">
-                                    <li class="menu-item "><a href="#">Незаконно осиновяване</a></li>
-                                    <li class="menu-item "><a href="#">Неплащане на издръжка</a></li>
-                                  </ul>
-                                </li>
-                                <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Престъпления против дейността на държавни и обществени организации</a>
-                                  <ul class="dropdown-menu">
-                                    <li class="menu-item "><a href="#">Използване на полицейски знаци</a></li>
-                                    <li class="menu-item "><a href="#">Незаконно преминаване през граница</a></li>
-                                    <li class="menu-item "><a href="#">Превеждане през граница</a></li>
-                                  </ul>
-                                </li>
-                                <li class="menu-item "><a href="#">Компютърни престъпления</a></li>
-                                <li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Престъпления против реда и общественото спокойствие</a>
-                                  <ul class="dropdown-menu">
-                                    <li class="menu-item "><a href="#">Образуване и участие в престъпна група</a></li>
-                                    <li class="menu-item "><a href="#">Хулиганство</a></li>
-                                  </ul>
-                                </li>
-                                <li class="menu-item "><a href="#">Други</a></li>
-                            </ul>
-                          </li>
-
-                          <li class="menu-item "><a href="#">Смъртни случаи без следи от насилие</a></li>
-
-                      </ul>
+                      <li><a href="#">Умишлено убийство (опит)</a></li>
+                      <li><a href="#">Убийство на новородено</a></li>
+                      <li><a href="#">Подпомагане, склоняване към самоубийство</a></li>
+                    </ul>
                   </li>
-              </ul>
-          </div>
-      </nav>
+                  <li><a href="#">Разврат<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Блудство</a></li>
+                      <li><a href="#">Изнасилване</a></li>
+                      <li><a href="#">Изнасилване (опит)</a></li>
+                      <li><a href="#">Сводничество и отвличане за разврат</a></li>
+                      <li><a href="#">Насилствен хомосексуализъм</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Телесна повреда<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Умишлена тежка телесна повреда</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Отвличане и противозаконно лишаване от свобода</a></li>
+                  <li><a href="#">Задържане на заложник</a></li>
+                  <li><a href="#">Трафик на хора</a></li>
+                  <li><a href="#">Други против личността</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Престъпления против собствеността<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Грабеж<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Въоръжен грабеж<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Въоръжен грабеж чрез огнестрелно оръжие</a></li>
+                        </ul>
+                      </li>
+                      <li><a href="#">Магистрален грабеж<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Магистрален въоръжен грабеж</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Кражба<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Джебчийска кражба</a></li>
+                      <li><a href="#">Взломна кражба</a></li>
+                      <li><a href="#">Домова кражба</a></li>
+                      <li><a href="#">Кражба от офиси</a></li>
+                      <li><a href="#">Кражба от магазини</a></li>
+                      <li><a href="#">Кражба на части и вещи от МПС</a></li>
+                      <li><a href="#">Кражба на оръжие и боеприпаси</a></li>
+                      <li><a href="#">Кражба на селскостопанска продукция, домашни животни и птици</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Измама</a></li>
+                  <li><a href="#">Изнудване</a></li>
+                  <li><a href="#">Други против собствеността</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Общоопасни престъпления<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Палеж<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Повреждане чрез взрив</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Незаконно производство, притежаване и използване на оръжие</a></li>
+                  <li><a href="#">Посегателства спрямо МПС<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Противозаконно отнемане на МПС</a></li>
+                      <li><a href="#">Съдействие при връщане на МПС с цел имотна облага</a></li>
+                      <li><a href="#">Кражба на МПС</a></li>
+                      <li><a href="#">Грабеж на МПС</a></li>
+                      <li><a href="#">Грабеж на МПС от престъпна група</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Престъпления, свързани с наркотици<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Контрабанда</a></li>
+                      <li><a href="#">Производство, притежаване, разпространение, пренасяне</a></li>
+                      <li><a href="#">Склоняване към употреба</a></li>
+                      <li><a href="#">Отглеждане на растения</a></li>
+                      <li><a href="#">Превод на суми, придобити чрез трафик на наркотици</a></li>
+                      <li><a href="#">Финансови операции и сделки със суми</a></li>
+                      <li><a href="#">Възпрепятстване контрол</a></li>
+                      <li><a href="#">Неправомерен контрол</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Престъпления по транспорта<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Транспортни убийства по непредпазливост</a></li>
+                      <li><a href="#">Транспортни телесни повреди по непредпазливост</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Други общоопасни</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Други криминални престъпления<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Престъпления против правата на гражданите</a></li>
+                  <li><a href="#">Престъпления против брака, семейството и младежта<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Незаконно осиновяване</a></li>
+                      <li><a href="#">Неплащане на издръжка</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Престъпления против дейността на държавни и обществени организации<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Използване на полицейски знаци</a></li>
+                      <li><a href="#">Незаконно преминаване през граница</a></li>
+                      <li><a href="#">Превеждане през граница</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Компютърни престъпления</a></li>
+                  <li><a href="#">Престъпления против реда и общественото спокойствие<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Образуване и участие в престъпна група</a></li>
+                      <li><a href="#">Хулиганство</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Други</a></li>
+                </ul>
+              </li>  
+              <li><a href="#">Смъртни случаи без следи от насилие</a></li>
+            </ul>
+          </li>
+        </ul>
 
+      </div><!--/.nav-collapse -->
     </div>
+
     <div id='animation-container' class="row-fluid">
         <div id="play" class="to-top"></div>
         <div id="slider-container"  class="to-top">

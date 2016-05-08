@@ -1,4 +1,6 @@
-var opendata_colors = [ '#691212', '#c3a0a0']
+// var opendata_colors = [ '#691212', '#c3a0a0']
+var opendata_colors = [ '#0d90d1', '#a9dffa']
+
 
 /*Slightly updated version of mbostock's recep*/
 
